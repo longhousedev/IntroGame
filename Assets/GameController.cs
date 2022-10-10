@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     private int closestIndex;
     private LineRenderer lineRenderer;
     private Vector3 lastPos;
+
     private Mode mode;
     // Start is called before the first frame update
 
@@ -23,7 +24,7 @@ public class GameController : MonoBehaviour
         Distance,
         Vision
     }
-    
+
     void Start()
     {
         mode = Mode.Normal;
@@ -62,19 +63,24 @@ public class GameController : MonoBehaviour
         {
             lineRenderer.startWidth = 0;
             lineRenderer.endWidth = 0;
+            for (int i = 0; i < pickup.Length; i++)
+            {
+                pickup[i].GetComponent<Renderer>().material.color = Color.white;
+            }
         }
         if (mode == Mode.Distance)
         {
-            
+
             positionText.text = "Position: " + player.transform.position;
             velocityText.text = "Velocity: " + (player.transform.position - lastPos)
                                              + " " + (player.transform.position - lastPos).magnitude;
-            for (int i = 0; i < pickup.Length; i++ )
+            for (int i = 0; i < pickup.Length; i++)
             {
                 if (!pickup[closestIndex].activeSelf && pickup[i].gameObject.activeSelf)
                 {
                     closestIndex = i;
                 }
+
                 if (Vector3.Distance(player.transform.position, pickup[i].transform.position) <
                     (Vector3.Distance(player.transform.position, pickup[closestIndex].transform.position))
                     && pickup[i].gameObject.activeSelf)
@@ -82,7 +88,8 @@ public class GameController : MonoBehaviour
                     closestIndex = i;
                 }
             }
-            for (int i = 0; i < pickup.Length; i++ )
+
+            for (int i = 0; i < pickup.Length; i++)
             {
                 if (i == closestIndex)
                 {
@@ -109,14 +116,15 @@ public class GameController : MonoBehaviour
             lineRenderer.SetPosition(1, player.transform.position + (player.transform.position - lastPos) * 50);
             lineRenderer.startWidth = 0.1f;
             lineRenderer.endWidth = 0.1f;
-            
-            
-            for (int i = 0; i < pickup.Length; i++ )
+
+
+            for (int i = 0; i < pickup.Length; i++)
             {
                 if (!pickup[closestIndex].activeSelf && pickup[i].gameObject.activeSelf)
                 {
                     closestIndex = i;
                 }
+
                 if (Vector3.Angle((player.transform.position - lastPos), pickup[i].transform.position) <
                     (Vector3.Angle((player.transform.position - lastPos), pickup[closestIndex].transform.position))
                     && pickup[i].gameObject.activeSelf)
@@ -124,7 +132,8 @@ public class GameController : MonoBehaviour
                     closestIndex = i;
                 }
             }
-            for (int i = 0; i < pickup.Length; i++ )
+
+            for (int i = 0; i < pickup.Length; i++)
             {
                 if (i == closestIndex)
                 {
